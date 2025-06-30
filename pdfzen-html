@@ -1,0 +1,2040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDFZen | Modern Online PDF Tools</title>
+    <meta name="description" content="Beautiful, intuitive PDF tools to compress, convert, edit and merge PDF files for free. Cloud-based with premium quality results.">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Modern CSS with variables -->
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --danger: #f72585;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f5f7ff;
+            overflow-x: hidden;
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; }
+        h3 { font-size: 1.75rem; }
+        h4 { font-size: 1.5rem; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.75rem; }
+            h3 { font-size: 1.5rem; }
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .btn i {
+            font-size: 1.1em;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-lg {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: var(--radius-md);
+        }
+
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: var(--shadow-sm);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .header.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .logo-icon {
+            font-size: 1.75rem;
+            color: var(--primary);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            color: white;
+            padding: 10rem 0 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero .btn {
+            min-width: 180px;
+        }
+
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .tool-card-header {
+            padding: 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            text-align: center;
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tool-card-title {
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+
+        .tool-card-text {
+            margin-bottom: 1.5rem;
+            color: var(--gray);
+            flex-grow: 1;
+        }
+
+        /* File Upload Area */
+        .upload-area {
+            background: white;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .file-drop-zone {
+            border: 2px dashed var(--light-gray);
+            border-radius: var(--radius-md);
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+        }
+
+        .file-drop-zone.active {
+            border-color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+
+        .file-drop-zone i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .file-drop-zone h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        .file-drop-zone p {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-info {
+            display: none;
+            background: var(--light);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .file-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-container {
+            margin-top: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: var(--light-gray);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        /* Options Section */
+        .options-section {
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .option-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .option-group-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--light);
+            border-radius: var(--radius-sm);
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .option-item:hover {
+            background: var(--light-gray);
+        }
+
+        .option-item input {
+            margin-right: 0.75rem;
+        }
+
+        /* Results Section */
+        .results-section {
+            display: none;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-success {
+            color: var(--success);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: var(--light);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-sm);
+            min-width: 120px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        /* Features Section */
+        .features {
+            background: white;
+        }
+
+        .feature-card {
+            display: flex;
+            background: white;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: var(--transition);
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-content {
+            padding: 2rem;
+        }
+
+        /* How It Works */
+        .steps {
+            position: relative;
+        }
+
+        .steps:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: var(--light-gray);
+            z-index: 1;
+        }
+
+        .step {
+            position: relative;
+            display: flex;
+            margin-bottom: 2rem;
+            z-index: 2;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            margin-right: 1.5rem;
+        }
+
+        .step-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            flex-grow: 1;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: linear-gradient(135deg, #f5f7ff, #e6ebff);
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: 2rem;
+            height: 100%;
+            position: relative;
+        }
+
+        .testimonial-card:before {
+            content: '"';
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+            font-size: 4rem;
+            color: var(--light-gray);
+            font-family: serif;
+            line-height: 1;
+            z-index: 0;
+        }
+
+        .testimonial-content {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+
+        .author-info h5 {
+            margin-bottom: 0.25rem;
+        }
+
+        .author-info p {
+            margin-bottom: 0;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        /* Pricing */
+        .pricing-card {
+            background: white;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: 2rem;
+            transition: var(--transition);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .pricing-card.popular {
+            border: 2px solid var(--primary);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-bottom-left-radius: var(--radius-sm);
+        }
+
+        .pricing-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .pricing-period {
+            font-size: 1rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        .pricing-features {
+            margin: 1.5rem 0;
+        }
+
+        .pricing-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .pricing-feature i {
+            color: var(--success);
+            margin-right: 0.5rem;
+        }
+
+        /* FAQ */
+        .faq-item {
+            margin-bottom: 1rem;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .faq-question {
+            background: white;
+            padding: 1.25rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .faq-question.active:after {
+            content: '-';
+        }
+
+        .faq-answer {
+            background: var(--light);
+            padding: 0 1.25rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 1.25rem 0;
+        }
+
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo-icon {
+            font-size: 1.75rem;
+            color: white;
+        }
+
+        .footer-about {
+            margin-bottom: 2rem;
+        }
+
+        .footer-links h5 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transition: var(--transition);
+        }
+
+        .footer-social a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.875rem;
+        }
+
+        /* Ad Containers */
+        .ad-container {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            margin: 2rem 0;
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: none;
+            width: 3rem;
+            height: 3rem;
+            margin: 2rem auto;
+            border: 4px solid rgba(67, 97, 238, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .section {
+                padding: 4rem 0;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .steps:before {
+                display: none;
+            }
+            
+            .step {
+                flex-direction: column;
+            }
+            
+            .step-number {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: var(--shadow-md);
+                transform: translateY(-150%);
+                transition: var(--transition);
+                z-index: 999;
+            }
+            
+            .nav.active {
+                transform: translateY(0);
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                padding: 8rem 0 4rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                margin-bottom: 2rem;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section {
+                padding: 3rem 0;
+            }
+            
+            .hero-title {
+                font-size: 1.75rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero .btn {
+                width: 100%;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .upload-area {
+                padding: 1.5rem;
+            }
+            
+            .file-drop-zone {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .slide-up {
+            animation: slideUp 0.5s ease forwards;
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf logo-icon"></i>
+                <span>PDFZen</span>
+            </a>
+            
+            <nav class="nav" id="nav">
+                <a href="#tools" class="nav-link">Tools</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#how-it-works" class="nav-link">How It Works</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+            
+            <div class="header-actions">
+                <a href="#" class="btn btn-secondary">Login</a>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Beautiful PDF Tools for Everyone</h1>
+                <p class="hero-subtitle">Compress, convert, edit and merge PDF files with our intuitive, cloud-based tools. No installation required.</p>
+                <div class="hero-buttons">
+                    <a href="#tools" class="btn btn-primary btn-lg">
+                        <i class="fas fa-tools"></i> Explore Tools
+                    </a>
+                    <a href="#file-converter" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-exchange-alt"></i> Convert Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Ad Container -->
+    <div class="container">
+        <div class="ad-container">
+            <!-- Google AdSense Code -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+                crossorigin="anonymous"></script>
+            <!-- Top Banner Ad -->
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                data-ad-slot="YOUR_AD_SLOT_ID"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+
+    <!-- Tools Section -->
+    <section class="section" id="tools">
+        <div class="container">
+            <h2 class="section-title">Our PDF Tools</h2>
+            <p class="text-center mb-5">All tools are 100% free to use with no watermarks or registration required</p>
+            
+            <div class="tools-grid">
+                <!-- Compress PDF -->
+                <div class="tool-card">
+                    <div class="tool-card-header">
+                        <i class="fas fa-compress-alt tool-icon"></i>
+                        <h3 class="tool-card-title">Compress PDF</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p class="tool-card-text">Reduce PDF file size while maintaining good quality. Perfect for email attachments and web uploads.</p>
+                        <a href="#compress-pdf" class="btn btn-primary">Select Tool</a>
+                    </div>
+                </div>
+                
+                <!-- PDF to Word -->
+                <div class="tool-card">
+                    <div class="tool-card-header">
+                        <i class="fas fa-file-word tool-icon"></i>
+                        <h3 class="tool-card-title">PDF to Word</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p class="tool-card-text">Convert PDF files to editable Microsoft Word documents while preserving formatting.</p>
+                        <a href="#pdf-to-word" class="btn btn-primary">Select Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Merge PDF -->
+                <div class="tool-card">
+                    <div class="tool-card-header">
+                        <i class="fas fa-object-group tool-icon"></i>
+                        <h3 class="tool-card-title">Merge PDF</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p class="tool-card-text">Combine multiple PDF files into one document in just seconds. Reorder pages as needed.</p>
+                        <a href="#merge-pdf" class="btn btn-primary">Select Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Split PDF -->
+                <div class="tool-card">
+                    <div class="tool-card-header">
+                        <i class="fas fa-cut tool-icon"></i>
+                        <h3 class="tool-card-title">Split PDF</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p class="tool-card-text">Extract pages from a PDF or split into multiple files. Select pages by range or extract all.</p>
+                        <a href="#split-pdf" class="btn btn-primary">Select Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Word to PDF -->
+                <div class="tool-card">
+                    <div class="tool-card-header">
+                        <i class="fas fa-file-pdf tool-icon"></i>
+                        <h3 class="tool-card-title">Word to PDF</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p class="tool-card-text">Convert Word documents to PDF files with perfect formatting preservation.</p>
+                        <a href="#word-to-pdf" class="btn btn-primary">Select Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Edit PDF -->
+                <div class="tool-card">
+                    <div class="tool-card-header">
+                        <i class="fas fa-edit tool-icon"></i>
+                        <h3 class="tool-card-title">Edit PDF</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p class="tool-card-text">Add text, images, shapes and annotations to your PDF files. Rotate and delete pages.</p>
+                        <a href="#edit-pdf" class="btn btn-primary">Select Tool</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PDF Compress Tool -->
+    <section class="section bg-light" id="compress-pdf">
+        <div class="container">
+            <div class="upload-area">
+                <h2 class="text-center mb-4">Compress PDF</h2>
+                <p class="text-center mb-4">Reduce PDF file size without losing quality</p>
+                
+                <div class="file-drop-zone" id="file-drop-zone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h4>Drag & Drop your PDF file here</h4>
+                    <p>or</p>
+                    <button class="btn btn-primary" id="file-select-btn">
+                        <i class="fas fa-folder-open"></i> Select File
+                    </button>
+                    <input type="file" id="file-input" class="file-input" accept=".pdf">
+                </div>
+                
+                <div class="file-info" id="file-info">
+                    <div class="file-details">
+                        <span id="file-name">document.pdf</span>
+                        <span id="file-size">2.4 MB</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="loading-spinner" id="loading-spinner"></div>
+                
+                <div class="options-section" id="options-section">
+                    <div class="option-group">
+                        <h5 class="option-group-title">Compression Level</h5>
+                        <div class="option-item">
+                            <input type="radio" id="low-compression" name="compression" checked>
+                            <label for="low-compression">Low Compression (Best Quality)</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" id="medium-compression" name="compression">
+                            <label for="medium-compression">Medium Compression (Recommended)</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" id="high-compression" name="compression">
+                            <label for="high-compression">High Compression (Smallest File)</label>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary w-100" id="compress-btn">
+                        <i class="fas fa-compress-alt"></i> Compress PDF
+                    </button>
+                </div>
+                
+                <div class="results-section" id="results-section">
+                    <div class="result-card">
+                        <i class="fas fa-check-circle result-success"></i>
+                        <h3>Compression Successful!</h3>
+                        <p>Your PDF file has been optimized</p>
+                        
+                        <div class="result-stats">
+                            <div class="stat-item">
+                                <div class="stat-value" id="original-size">2.4 MB</div>
+                                <div class="stat-label">Original Size</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="compressed-size">1.2 MB</div>
+                                <div class="stat-label">Compressed Size</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="compression-ratio">50%</div>
+                                <div class="stat-label">Reduction</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-lg" id="download-btn">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                    <button class="btn btn-secondary" id="new-file-btn">
+                        <i class="fas fa-redo"></i> New File
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Middle Ad Container -->
+    <div class="container">
+        <div class="ad-container">
+            <!-- Google AdSense Code -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+                crossorigin="anonymous"></script>
+            <!-- Middle Rectangle Ad -->
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                data-ad-slot="YOUR_AD_SLOT_ID"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section class="section features" id="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose PDFZen?</h2>
+            <p class="text-center mb-5">We offer the best PDF tools with premium features at no cost</p>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-content">
+                            <i class="fas fa-lock feature-icon"></i>
+                            <h3>Secure Processing</h3>
+                            <p>All files are processed securely in your browser and deleted after 2 hours. We never store your documents permanently.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-content">
+                            <i class="fas fa-bolt feature-icon"></i>
+                            <h3>Fast Processing</h3>
+                            <p>Our cloud-based infrastructure processes files up to 10x faster than desktop applications, even for large documents.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-content">
+                            <i class="fas fa-heart feature-icon"></i>
+                            <h3>No Watermarks</h3>
+                            <p>Unlike other free tools, we never add watermarks to your documents. What you see is exactly what you get.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-content">
+                            <i class="fas fa-mobile-alt feature-icon"></i>
+                            <h3>Mobile Friendly</h3>
+                            <p>Works perfectly on all devices including smartphones and tablets. No app installation required.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-content">
+                            <i class="fas fa-infinity feature-icon"></i>
+                            <h3>No Limits</h3>
+                            <p>No daily usage limits or file restrictions. Process as many files as you need, whenever you need.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-content">
+                            <i class="fas fa-cloud feature-icon"></i>
+                            <h3>Cloud Integration</h3>
+                            <p>Connect with Google Drive, Dropbox and OneDrive to access files directly from your cloud storage.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <p class="text-center mb-5">Get started in just 3 simple steps</p>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Upload Your PDF</h4>
+                        <p>Select your PDF file from your computer, Google Drive, Dropbox or drag and drop it into the upload area.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Choose Options</h4>
+                        <p>Select your preferred settings like compression level, output format or page range depending on the tool.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Download Result</h4>
+                        <p>Your processed file will be ready in seconds. Download it to your device or save directly to cloud storage.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Users Say</h2>
+            <p class="text-center mb-5">Trusted by millions of users worldwide</p>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>I use PDFZen daily for my business documents. The quality is amazing and it's completely free. Best PDF tool I've found!</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Sarah Johnson" class="author-avatar">
+                            <div class="author-info">
+                                <h5>Sarah Johnson</h5>
+                                <p>Small Business Owner</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>As a student, I need to compress PDFs of research papers all the time. PDFZen makes it so easy and the results are perfect.</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen" class="author-avatar">
+                            <div class="author-info">
+                                <h5>Michael Chen</h5>
+                                <p>University Student</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>Our legal team switched to PDFZen after trying several paid solutions. The merge and split tools save us hours every week.</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Emily Rodriguez" class="author-avatar">
+                            <div class="author-info">
+                                <h5>Emily Rodriguez</h5>
+                                <p>Law Firm Administrator</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="section bg-light" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Premium Features</h2>
+            <p class="text-center mb-5">Upgrade for advanced features and priority processing</p>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="pricing-card">
+                        <h3 class="pricing-title">Basic</h3>
+                        <div class="pricing-price">$0<span class="pricing-period">/month</span></div>
+                        <div class="pricing-features">
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>All basic tools</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>File size up to 50MB</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>Standard processing</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>No watermarks</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary w-100">Current Plan</button>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="pricing-card popular">
+                        <div class="popular-badge">Most Popular</div>
+                        <h3 class="pricing-title">Pro</h3>
+                        <div class="pricing-price">$6<span class="pricing-period">/month</span></div>
+                        <div class="pricing-features">
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>All basic tools</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>File size up to 200MB</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>Priority processing</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>OCR text recognition</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>Batch processing</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary w-100">Upgrade Now</button>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="pricing-card">
+                        <h3 class="pricing-title">Business</h3>
+                        <div class="pricing-price">$15<span class="pricing-period">/month</span></div>
+                        <div class="pricing-features">
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>All Pro features</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>File size up to 1GB</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>Team collaboration</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>API access</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <i class="fas fa-check"></i>
+                                <span>Priority support</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary w-100">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" id="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Is PDFZen really free to use?
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>Yes! All our basic tools are 100% free with no hidden charges. We offer premium plans with additional features, but the core functionality is completely free.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How secure are my files?
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>Your files are processed securely in your browser whenever possible. For larger files that require server processing, they are automatically deleted after 2 hours. We never store your documents permanently.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What file sizes can I process?
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>The free version supports files up to 50MB. Our Pro plan increases this limit to 200MB, and Business plan supports files up to 1GB.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Do I need to create an account?
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>No account is required for basic usage. If you upgrade to a premium plan, you'll need an account to manage your subscription.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What browsers are supported?
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>PDFZen works on all modern browsers including Chrome, Firefox, Safari, Edge and Opera. For best performance, we recommend using the latest version of Chrome.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Ad Container -->
+    <div class="container">
+        <div class="ad-container">
+            <!-- Google AdSense Code -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+                crossorigin="anonymous"></script>
+            <!-- Bottom Banner Ad -->
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                data-ad-slot="YOUR_AD_SLOT_ID"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Transform Your PDFs?</h2>
+                <p>Join millions of users who trust PDFZen for their document needs</p>
+                <div class="cta-buttons">
+                    <a href="#tools" class="btn btn-light btn-lg">
+                        <i class="fas fa-tools"></i> Try Our Tools
+                    </a>
+                    <a href="#pricing" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-crown"></i> Go Premium
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section bg-light" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <p class="text-center mb-5">Have questions? We're here to help!</p>
+            
+            <div class="row">
+                <div class="col-lg-6 mx-auto">
+                    <form id="contact-form" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="contact-name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="contact-name" required>
+                            <div class="invalid-feedback">
+                                Please enter your name.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contact-email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="contact-email" required>
+                            <div class="invalid-feedback">
+                                Please enter a valid email address.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contact-subject" class="form-label">Subject</label>
+                            <input type="text" class="form-control" id="contact-subject" required>
+                            <div class="invalid-feedback">
+                                Please enter a subject.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contact-message" class="form-label">Message</label>
+                            <textarea class="form-control" id="contact-message" rows="5" required></textarea>
+                            <div class="invalid-feedback">
+                                Please enter your message.
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="footer-about">
+                        <a href="#" class="footer-logo">
+                            <i class="fas fa-file-pdf footer-logo-icon"></i>
+                            <span>PDFZen</span>
+                        </a>
+                        <p>Beautiful, intuitive PDF tools for everyone. Compress, convert, edit and merge PDF files with ease.</p>
+                        <div class="footer-social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <div class="footer-links">
+                        <h5>Tools</h5>
+                        <ul>
+                            <li><a href="#">Compress PDF</a></li>
+                            <li><a href="#">PDF to Word</a></li>
+                            <li><a href="#">Merge PDF</a></li>
+                            <li><a href="#">Split PDF</a></li>
+                            <li><a href="#">Edit PDF</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <div class="footer-links">
+                        <h5>Company</h5>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Press</a></li>
+                            <li><a href="#">Partners</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <div class="footer-links">
+                        <h5>Support</h5>
+                        <ul>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Cookies</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="footer-links">
+                        <h5>Resources</h5>
+                        <ul>
+                            <li><a href="#">Developer API</a></li>
+                            <li><a href="#">Tutorials</a></li>
+                            <li><a href="#">Templates</a></li>
+                            <li><a href="#">Community</a></li>
+                            <li><a href="#">Webinars</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 PDFZen. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" id="back-to-top" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const nav = document.getElementById('nav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            mobileMenuBtn.innerHTML = nav.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close mobile menu when clicking a nav link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Back to top button
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.style.display = 'flex';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // File Upload Functionality
+        const fileDropZone = document.getElementById('file-drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const fileSelectBtn = document.getElementById('file-select-btn');
+        const fileInfo = document.getElementById('file-info');
+        const fileName = document.getElementById('file-name');
+        const fileSize = document.getElementById('file-size');
+        const progressFill = document.getElementById('progress-fill');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const optionsSection = document.getElementById('options-section');
+        const resultsSection = document.getElementById('results-section');
+        const compressBtn = document.getElementById('compress-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const newFileBtn = document.getElementById('new-file-btn');
+        const originalSizeEl = document.getElementById('original-size');
+        const compressedSizeEl = document.getElementById('compressed-size');
+        const compressionRatioEl = document.getElementById('compression-ratio');
+        
+        // File selection
+        fileSelectBtn.addEventListener('click', () => fileInput.click());
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFileUpload(e.target.files[0]);
+            }
+        });
+        
+        // Drag and drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            fileDropZone.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileDropZone.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileDropZone.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            fileDropZone.classList.add('active');
+        }
+        
+        function unhighlight() {
+            fileDropZone.classList.remove('active');
+        }
+        
+        fileDropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const file = dt.files[0];
+            if (file && file.type === 'application/pdf') {
+                handleFileUpload(file);
+            } else {
+                alert('Please upload a PDF file.');
+            }
+        });
+        
+        // Handle file upload
+        function handleFileUpload(file) {
+            // Show file info
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            fileInfo.style.display = 'block';
+            
+            // Simulate upload progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 5;
+                progressFill.style.width = `${progress}%`;
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        fileInfo.style.display = 'none';
+                        optionsSection.style.display = 'block';
+                    }, 500);
+                }
+            }, 100);
+        }
+        
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // Compress button click
+        compressBtn.addEventListener('click', () => {
+            loadingSpinner.style.display = 'block';
+            optionsSection.style.display = 'none';
+            
+            // Simulate compression process
+            setTimeout(() => {
+                loadingSpinner.style.display = 'none';
+                
+                // Mock results
+                const original = Math.floor(Math.random() * 5000) + 1000; // 1-6 MB
+                const compressed = Math.floor(original * (Math.random() * 0.5 + 0.2)); // 20-70% of original
+                const ratio = ((original - compressed) / original * 100).toFixed(1);
+                
+                originalSizeEl.textContent = formatFileSize(original * 1024);
+                compressedSizeEl.textContent = formatFileSize(compressed * 1024);
+                compressionRatioEl.textContent = `${ratio}%`;
+                
+                resultsSection.style.display = 'block';
+            }, 2000);
+        });
+        
+        // New file button
+        newFileBtn.addEventListener('click', () => {
+            resultsSection.style.display = 'none';
+            optionsSection.style.display = 'none';
+            fileInput.value = '';
+            fileDropZone.style.display = 'block';
+        });
+        
+        // Download button (mock functionality)
+        downloadBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('In a real implementation, this would download the compressed PDF file.');
+        });
+        
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                question.classList.toggle('active');
+                const answer = question.nextElementSibling;
+                if (question.classList.contains('active')) {
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                } else {
+                    answer.style.maxHeight = '0';
+                }
+            });
+        });
+        
+        // Form validation
+        const contactForm = document.getElementById('contact-form');
+        contactForm.addEventListener('submit', (e) => {
+            if (!contactForm.checkValidity()) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            contactForm.classList.add('was-validated');
+            
+            if (contactForm.checkValidity()) {
+                e.preventDefault();
+                alert('Thank you for your message! We will get back to you soon.');
+                contactForm.reset();
+                contactForm.classList.remove('was-validated');
+            }
+        }, false);
+        
+        // Tool navigation
+        document.querySelectorAll('.tool-card a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const toolId = link.getAttribute('href');
+                document.querySelector(toolId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                
+                // Reset any open tool
+                optionsSection.style.display = 'none';
+                resultsSection.style.display = 'none';
+                fileInfo.style.display = 'none';
+                loadingSpinner.style.display = 'none';
+                fileDropZone.style.display = 'block';
+            });
+        });
+        
+        // Initialize animations
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.fade-in, .slide-up');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementPosition < windowHeight - 100) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+        // Set initial state for animated elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transition = 'opacity 0.6s ease';
+        });
+        
+        document.querySelectorAll('.slide-up').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease';
+        });
+        
+        // Run once on load
+        animateOnScroll();
+        
+        // Then on scroll
+        window.addEventListener('scroll', animateOnScroll);
+        
+        // Initialize AdSense
+        function initializeAdSense() {
+            // In a real implementation, this would initialize your AdSense code
+            console.log('AdSense initialized');
+        }
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAdSense();
+            
+            // Add animation classes after a slight delay to allow for rendering
+            setTimeout(() => {
+                document.querySelectorAll('.tool-card, .feature-card, .testimonial-card, .pricing-card').forEach((el, index) => {
+                    el.classList.add('slide-up');
+                    el.style.transitionDelay = `${index * 0.1}s`;
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
